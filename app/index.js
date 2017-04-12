@@ -27,6 +27,19 @@ class HelloWorld extends Component {
 			>
 				<div className="row reverse-labels">
 					<div className="col s6 col-xs-6">
+						<RatingsFilter
+							componentId="RatingsSensor"
+							appbaseField="rating"
+							title="RatingsFilter"
+							data={
+							[{ start: 4, end: 5, label: "4 stars and up" },
+								{ start: 3, end: 5, label: "3 stars and up" },
+								{ start: 2, end: 5, label: "2 stars and up" },
+								{ start: 1, end: 5, label: "> 1 stars" }]
+							}
+						/>
+					</div>
+					<div className="col s6 col-xs-6">
 						<ResultCard
 							componentId="SearchResult"
 							appbaseField="name"
@@ -54,19 +67,6 @@ class HelloWorld extends Component {
 							react={{
 								and: "RatingsSensor"
 							}}
-						/>
-					</div>
-					<div className="col s6 col-xs-6">
-						<RatingsFilter
-							componentId="RatingsSensor"
-							appbaseField="rating"
-							title="RatingsFilter"
-							data={
-							[{ start: 4, end: 5, label: "4 stars and up" },
-								{ start: 3, end: 5, label: "3 stars and up" },
-								{ start: 2, end: 5, label: "2 stars and up" },
-								{ start: 1, end: 5, label: "> 1 stars" }]
-							}
 						/>
 					</div>
 				</div>
