@@ -10,7 +10,7 @@ git clone https://github.com/appbaseio-apps/reactivesearch-starter-app.git
 ## Installation
 
 - `npm install`
-- `npm start` for development server at port 8000
+- `npm start` for development server at port 8001
 - `npm run build` for production
 
 
