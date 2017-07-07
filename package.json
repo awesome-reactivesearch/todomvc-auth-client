@@ -4,9 +4,7 @@
   "description": "reactivesearch",
   "main": "index.js",
   "scripts": {
-    "webpack-dev-server": "webpack-dev-server --inline --hot --port 8001",
-    "dev": "webpack -d --watch",
-    "start": "npm-run-all --parallel dev webpack-dev-server",
+    "start": "webpack-dev-server --inline --hot --port 8001",
     "build": "webpack -p"
   },
   "repository": {
