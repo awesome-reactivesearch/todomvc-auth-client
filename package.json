@@ -24,6 +24,7 @@
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "html-webpack-plugin": "^2.24.1",
@@ -34,6 +35,9 @@
   },
   "dependencies": {
     "@appbaseio/reactivesearch": "v1.0.0-beta05",
+    "appbase-js": "^0.11.1",
+    "classnames": "^2.2.5",
+    "director": "^1.2.8",
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "webpack-dev-server": "^2.4.2"
