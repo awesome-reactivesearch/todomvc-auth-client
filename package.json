@@ -34,7 +34,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "@appbaseio/reactivesearch": "v1.0.0-beta05",
+    "@appbaseio/reactivesearch": "^1.1.0",
     "appbase-js": "^0.11.1",
     "classnames": "^2.2.5",
     "director": "^1.2.8",
