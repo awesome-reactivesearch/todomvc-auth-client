@@ -12,12 +12,31 @@ module.exports = {
 		rules: [
 			{
 				test: /\.js$/, 
-				exclude: /node_modules/, 
+				exclude: /node_modules/,
 				use: ["babel-loader"]
 			},
 			{
 				test: /node_modules\/JSONStream\/index\.js$/,
 				use: ["shebang-loader", "babel-loader"]
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					{
+						loader: "style-loader"
+					}, {
+						loader: "css-loader"
+					}, {
+						loader: "sass-loader"
+					}
+				]
+			},
+			{
+				test: /\.css$/,
+				use: [
+					'style-loader',
+					'css-loader'
+				]
 			}
 		]
 	},
