@@ -1,0 +1,25 @@
+@import './todomvc';
+
+.new-todo-container {
+
+  .rbc-input {
+    @extend .new-todo;
+  }
+}
+
+.rbc-resultlist-scroll-container {
+  height: auto !important;
+  padding-bottom: 0 !important;
+
+  .rbc-resultlist-item__details {
+    width: 100%;
+
+    label {
+      margin-left: 0.3rem;
+    }
+  }
+}
+
+.rbc-poweredby {
+  display: none;
+}
