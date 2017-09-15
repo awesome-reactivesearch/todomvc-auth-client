@@ -1,9 +1,17 @@
 // Based on: https://github.com/tastejs/todomvc/blob/gh-pages/examples/react/js/app.jsx
 
 import React, { Component } from 'react';
+import {
+  ReactiveBase,
+  DataController,
+  ResultList,
+  TextField,
+} from '@appbaseio/reactivesearch';
 
 import TodoItem from './todoItem';
 import TodoFooter from './todoFooter';
+
+import './style.scss';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -19,6 +27,8 @@ class TodoApp extends Component {
       editing: null,
       newTodo: ''
     }
+    this.onData = this.onData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount () {
@@ -36,17 +46,19 @@ class TodoApp extends Component {
     router.init('/')
   }
 
-  handleChange (event) {
-    this.setState({newTodo: event.target.value})
+  handleChange (newTodo) {
+    this.setState({ newTodo: newTodo })
   }
 
   handleNewTodoKeyDown (event) {
     if (event.keyCode !== ENTER_KEY) {
       return
     }
+    console.log('handleNewTodoKeyDown:', this.state.newTodo);
     event.preventDefault();
     const val = this.state.newTodo.trim();
     if (val) {
+      console.log('addTodo');
       this.props.model.addTodo(val);
       this.setState({newTodo: ''})
     }
@@ -82,23 +94,18 @@ class TodoApp extends Component {
     this.props.model.clearCompleted()
   }
 
-  render () {
-    let footer,
-        main,
-        todos = this.props.model.todos;
-    let shownTodos = todos.filter((todo) => {
-      switch (this.state.nowShowing) {
-        case ACTIVE_TODOS:
-          return !todo.completed;
-        case COMPLETED_TODOS:
-          return todo.completed;
-        default:
-          return true
-      }
-    }, this);
+  customQuery(value) {
+		return {
+			query: {
+				match_all: {}
+			}
+		};
+	}
 
-    let todoItems = shownTodos.map((todo) => {
-      return (
+  onData(todo) {
+    console.log('onData: ', todo);
+		const result = {
+			desc: (
         <TodoItem
           key={todo.id}
           todo={{...todo}}
@@ -109,57 +116,104 @@ class TodoApp extends Component {
           onSave={this.save.bind(this, todo)}
           onCancel={this.cancel.bind(this)}
         />
-      )
-    }, this);
+      ),
+		};
+		return result;
+	}
 
-    let activeTodoCount = todos.reduce((accum, todo) => {
-      return todo.completed ? accum : accum + 1
-    }, 0);
+  render () {
+    let footer,
+        main;
+        // todos = this.props.model.todos;
+    // let shownTodos = todos.filter((todo) => {
+    //   switch (this.state.nowShowing) {
+    //     case ACTIVE_TODOS:
+    //       return !todo.completed;
+    //     case COMPLETED_TODOS:
+    //       return todo.completed;
+    //     default:
+    //       return true
+    //   }
+    // }, this);
+    //
+    // let todoItems = shownTodos.map((todo) => {
+    //   return (
+    //     <TodoItem
+    //       key={todo.id}
+    //       todo={{...todo}}
+    //       onToggle={this.toggle.bind(this, todo)}
+    //       onDestroy={this.destroy.bind(this, todo)}
+    //       onEdit={this.edit.bind(this, todo)}
+    //       editing={this.state.editing === todo.id}
+    //       onSave={this.save.bind(this, todo)}
+    //       onCancel={this.cancel.bind(this)}
+    //     />
+    //   )
+    // }, this);
+    //
+    // let activeTodoCount = todos.reduce((accum, todo) => {
+    //   return todo.completed ? accum : accum + 1
+    // }, 0);
+    //
+    // let completedCount = todos.length - activeTodoCount;
+    //
+    // if (activeTodoCount || completedCount) {
+    //   footer =
+    //     <TodoFooter
+    //       count={activeTodoCount}
+    //       completedCount={completedCount}
+    //       nowShowing={this.state.nowShowing}
+    //       onClearCompleted={this.clearCompleted.bind(this)}
+    //     />
+    // }
 
-    let completedCount = todos.length - activeTodoCount;
+    return (
+      <ReactiveBase
+				app="todomvc_debug"
+				credentials="FaGR2mgH8:913c77f0-8d2f-455b-9742-3b54717a529a"
+        type="todo_reactjs"
+			>
+        <header className="header">
+          <h1>todos</h1>
+          <TextField
+            componentId="NameTextSensor"
+            dataField="name"
+            className="new-todo-container"
+            placeholder="What needs to be done?"
+            onKeyDown={this.handleNewTodoKeyDown.bind(this)}
+            onValueChange={this.handleChange.bind(this)}
+            defaultSelected={this.state.newTodo}
+          />
+        </header>
+        <DataController
+					componentId="CustomSensor"
+					customQuery={this.customQuery}
+					visible={false}
+					defaultSelected="default"
+				/>
 
-    if (activeTodoCount || completedCount) {
-      footer =
-        <TodoFooter
-          count={activeTodoCount}
-          completedCount={completedCount}
-          nowShowing={this.state.nowShowing}
-          onClearCompleted={this.clearCompleted.bind(this)}
-        />
-    }
-
-    if (todos.length) {
-      main = (
         <section className="main">
-          <input
+          {/* <input
             className="toggle-all"
             type="checkbox"
             onChange={this.toggleAll.bind(this)}
             checked={activeTodoCount === 0}
-          />
+          /> */}
           <ul className="todo-list">
-            {todoItems}
+            <ResultList
+              componentId="ResultList01"
+              stream={true}
+              react={{
+                and: ["CustomSensor"]
+              }}
+              onData={this.onData}
+              showResultStats={false}
+              pagination={false}
+            />
           </ul>
         </section>
-      )
-    }
-
-    return (
-      <div>
-        <header className="header">
-          <h1>todos</h1>
-          <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            value={this.state.newTodo}
-            onKeyDown={this.handleNewTodoKeyDown.bind(this)}
-            onChange={this.handleChange.bind(this)}
-            autoFocus={true}
-          />
-        </header>
-        {main}
-        {footer}
-      </div>
+        {/* {footer} */}
+      </ReactiveBase>
     )
   }
 }

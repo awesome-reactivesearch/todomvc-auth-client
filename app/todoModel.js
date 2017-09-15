@@ -13,64 +13,65 @@ class TodoModel {
     this.onChanges = [];
     this.appbaseRef = new Appbase({
       url: 'https://scalr.api.appbase.io',
-      app: 'todo_mvc',
-      credentials: 'u36RHVuKZ:9702c693-f003-4c98-9bc9-eee8e3963745'
+      app: 'todomvc_debug',
+      credentials: 'FaGR2mgH8:913c77f0-8d2f-455b-9742-3b54717a529a'
     });
 
-    this.appbaseRef.search({
-      type: ES_TYPE,
-      size: 1000,
-      body: {
-        query: {
-          match_all: {}
-        }
-      }
-    }).on('data', ({hits: {hits = []} = {}} = {}) => {
-      this.todos = hits.map(({_source = {}} = {}) => _source);
-      this.inform();
-      console.log("search, match: ", hits)
-    }).on('error', (error) => {
-      console.log("caught a search error: ", error)
-    });
+    // this.appbaseRef.search({
+    //   type: ES_TYPE,
+    //   size: 1000,
+    //   body: {
+    //     query: {
+    //       match_all: {}
+    //     }
+    //   }
+    // }).on('data', ({hits: {hits = []} = {}} = {}) => {
+    //   this.todos = hits.map(({_source = {}} = {}) => _source);
+    //   this.inform();
+    //   console.log("search, match: ", hits)
+    // }).on('error', (error) => {
+    //   console.log("caught a search error: ", error)
+    // });
+    //
+    // this.appbaseRef.searchStream({
+    //   type: ES_TYPE,
+    //   body: {
+    //     query: {
+    //       match_all: {}
+    //     }
+    //   }
+    // }).on('data', (stream) => {
+    //   let {
+    //         _deleted,
+    //         _source
+    //       } = stream;
+    //
+    //   if (_deleted) {
+    //     this.todos = this.todos.filter(function (candidate) {
+    //       return candidate.id !== _source.id
+    //     })
+    //   } else if (_source) {
+    //     const todo = this.todos.find(({id}) => id == _source.id);
+    //     todo ? Object.assign(todo, _source) : this.todos.unshift(_source)
+    //   }
+    //
+    //   // this.todos = hits.map(({_source = {}} = {}) => _source)
+    //   this.inform();
+    //   console.log("searchStream, new match: ", stream)
+    // }).on('error', (error) => {
+    //   console.log("caught a searchStream, error: ", error)
+    // })
 
-    this.appbaseRef.searchStream({
-      type: ES_TYPE,
-      body: {
-        query: {
-          match_all: {}
-        }
-      }
-    }).on('data', (stream) => {
-      let {
-            _deleted,
-            _source
-          } = stream;
-
-      if (_deleted) {
-        this.todos = this.todos.filter(function (candidate) {
-          return candidate.id !== _source.id
-        })
-      } else if (_source) {
-        const todo = this.todos.find(({id}) => id == _source.id);
-        todo ? Object.assign(todo, _source) : this.todos.unshift(_source)
-      }
-
-      // this.todos = hits.map(({_source = {}} = {}) => _source)
-      this.inform();
-      console.log("searchStream, new match: ", stream)
-    }).on('error', (error) => {
-      console.log("caught a searchStream, error: ", error)
-    })
   }
 
   subscribe (onChange) {
-    this.onChanges.push(onChange)
+    // this.onChanges.push(onChange)
   }
 
   inform () {
     // Utils.store(this.key, this.todos)
     // this.todos = [...this.todos]
-    this.onChanges.forEach((cb) => { cb() })
+    // this.onChanges.forEach((cb) => { cb() })
   }
 
   addTodo (title) {
@@ -82,8 +83,8 @@ class TodoModel {
     };
 
     // optimistic logic
-    this.todos = [jsonObject].concat(this.todos);
-    this.inform();
+    // this.todos = [jsonObject].concat(this.todos);
+    // this.inform();
 
     // broadcast all changes
     this.appbaseRef.index({
@@ -162,30 +163,30 @@ class TodoModel {
     })
   }
 
-  save (todoToSave, text) {
-    // optimistic logic
-    this.todos = this.todos.map((todo) => {
-      return todo !== todoToSave ? todo : {
-        ...todo,
-        title: text
-      }
-    });
-    this.inform();
-
-    // broadcast all changes
-    this.appbaseRef.index({
-      type: ES_TYPE,
-      id: todoToSave.id,
-      body: {
-        ...todoToSave,
-        title: text
-      }
-    }).on('data', function(response) {
-      console.log(response)
-    }).on('error', function(error) {
-      console.log(error)
-    })
-  }
+  // save (todoToSave, text) {
+  //   // optimistic logic
+  //   this.todos = this.todos.map((todo) => {
+  //     return todo !== todoToSave ? todo : {
+  //       ...todo,
+  //       title: text
+  //     }
+  //   });
+  //   this.inform();
+  //
+  //   // broadcast all changes
+  //   this.appbaseRef.index({
+  //     type: ES_TYPE,
+  //     id: todoToSave.id,
+  //     body: {
+  //       ...todoToSave,
+  //       title: text
+  //     }
+  //   }).on('data', function(response) {
+  //     console.log(response)
+  //   }).on('error', function(error) {
+  //     console.log(error)
+  //   })
+  // }
 
   clearCompleted () {
     let completed = this.todos.filter((todo) => todo.completed);
