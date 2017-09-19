@@ -216,7 +216,7 @@ body {
 
 .todoapp h1 {
   position: absolute;
-  top: -155px;
+  top: -175px;
   width: 100%;
   font-size: 100px;
   font-weight: 100;
@@ -304,23 +304,23 @@ body {
   border-bottom: none;
 }
 
-.todo-list li.editing {
+.todo-list .editing {
   border-bottom: none;
   padding: 0;
 }
 
-.todo-list li.editing .edit {
+.todo-list .editing .edit {
   display: block;
   width: 506px;
   padding: 12px 16px;
   margin: 0 0 0 43px;
 }
 
-.todo-list li.editing .view {
+.todo-list .editing .view {
   display: none;
 }
 
-.todo-list li .toggle {
+.todo-list .toggle {
   text-align: center;
   width: 40px;
   /* auto, since non-WebKit browsers doesn't support input styling */
@@ -402,7 +402,7 @@ body {
 
 .footer {
   color: #777;
-  padding: 10px 15px;
+  padding: 11px 15px;
   height: 20px;
   text-align: center;
   border-top: 1px solid #e6e6e6;
@@ -441,24 +441,25 @@ body {
   left: 0;
 }
 
-.filters li {
+.filters .rbc-buttongroup {
   display: inline;
 }
 
-.filters li a {
+.filters .rbc-buttongroup .rbc-btn {
   color: inherit;
-  margin: 3px;
+  margin: 0 4px;
   padding: 3px 7px;
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 3px;
+  cursor: pointer;
 }
 
-.filters li a:hover {
+.filters .rbc-buttongroup .rbc-btn:hover {
   border-color: rgba(175, 47, 47, 0.1);
 }
 
-.filters li a.selected {
+.filters .rbc-buttongroup .rbc-btn-active {
   border-color: rgba(175, 47, 47, 0.2);
 }
 
