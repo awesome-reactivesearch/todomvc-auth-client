@@ -6,6 +6,7 @@ import {
   DataController,
   ResultList,
   TextField,
+  ToggleButton,
 } from '@appbaseio/reactivesearch';
 
 import TodoItem from './todoItem';
@@ -29,6 +30,7 @@ class TodoApp extends Component {
     }
     this.onData = this.onData.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.clearCompleted = this.clearCompleted.bind(this);
   }
 
   componentDidMount () {
@@ -123,8 +125,8 @@ class TodoApp extends Component {
 
   render () {
     let footer,
-        main;
-        // todos = this.props.model.todos;
+        main,
+        todos = this.props.model.todos;
     // let shownTodos = todos.filter((todo) => {
     //   switch (this.state.nowShowing) {
     //     case ACTIVE_TODOS:
@@ -151,21 +153,22 @@ class TodoApp extends Component {
     //   )
     // }, this);
     //
-    // let activeTodoCount = todos.reduce((accum, todo) => {
-    //   return todo.completed ? accum : accum + 1
-    // }, 0);
-    //
-    // let completedCount = todos.length - activeTodoCount;
-    //
-    // if (activeTodoCount || completedCount) {
-    //   footer =
-    //     <TodoFooter
-    //       count={activeTodoCount}
-    //       completedCount={completedCount}
-    //       nowShowing={this.state.nowShowing}
-    //       onClearCompleted={this.clearCompleted.bind(this)}
-    //     />
-    // }
+
+    let activeTodoCount = todos.reduce((accum, todo) => {
+      return todo.completed ? accum : accum + 1
+    }, 0);
+
+    let completedCount = todos.length - activeTodoCount;
+
+    if (activeTodoCount || completedCount) {
+      footer =
+        <TodoFooter
+          count={activeTodoCount}
+          completedCount={completedCount}
+          nowShowing={this.state.nowShowing}
+          onClearCompleted={this.clearCompleted.bind(this)}
+        />
+    }
 
     return (
       <ReactiveBase
@@ -185,34 +188,29 @@ class TodoApp extends Component {
             defaultSelected={this.state.newTodo}
           />
         </header>
-        <DataController
-					componentId="CustomSensor"
-					customQuery={this.customQuery}
-					visible={false}
-					defaultSelected="default"
-				/>
 
         <section className="main">
-          {/* <input
+          <input
             className="toggle-all"
             type="checkbox"
             onChange={this.toggleAll.bind(this)}
             checked={activeTodoCount === 0}
-          /> */}
+          />
           <ul className="todo-list">
             <ResultList
               componentId="ResultList01"
               stream={true}
               react={{
-                and: ["CustomSensor"]
+                or: ["Filters"]
               }}
+              scrollOnTarget={window}
               onData={this.onData}
               showResultStats={false}
               pagination={false}
             />
           </ul>
         </section>
-        {/* {footer} */}
+        {footer}
       </ReactiveBase>
     )
   }
