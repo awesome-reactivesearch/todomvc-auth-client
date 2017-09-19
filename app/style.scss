@@ -1,22 +1,34 @@
 @import './todomvc';
 
 .new-todo-container {
-
   .rbc-input {
     @extend .new-todo;
   }
 }
 
-.rbc-resultlist-scroll-container {
-  height: auto !important;
-  padding-bottom: 0 !important;
+.edit-todo-container {
+  .rbc-input {
+    @extend .edit;
+  }
+}
 
-  .rbc-resultlist-item__details {
-    width: 100%;
+.rbc-resultlist-container {
+  .rbc-resultlist-scroll-container {
+    .rbc-resultlist-item__details {
+      width: 100%;
 
-    label {
-      margin-left: 0.3rem;
+      label {
+        margin-left: 0.3rem;
+      }
     }
+  }
+}
+
+.footer {
+  .rbc-btn {
+    // display: inline;
+    @extend .filters;
+    position: relative;
   }
 }
 
