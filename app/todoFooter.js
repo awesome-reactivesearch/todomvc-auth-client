@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
+import  { ToggleButton } from '@appbaseio/reactivesearch';
 import Utils from './utils';
 
 const ALL_TODOS = 'all';
@@ -31,29 +32,51 @@ class TodoFooter extends Component {
           <strong>{this.props.count}</strong> {activeTodoWord} left
         </span>
         <ul className="filters">
-          <li>
-            <a
-              href="#/"
-              className={classNames({selected: nowShowing === ALL_TODOS})}>
-              All
-            </a>
-          </li>
-          {' '}
-          <li>
-            <a
-              href="#/active"
-              className={classNames({selected: nowShowing === ACTIVE_TODOS})}>
-              Active
-            </a>
-          </li>
-          {' '}
-          <li>
-            <a
-              href="#/completed"
-              className={classNames({selected: nowShowing === COMPLETED_TODOS})}>
-              Completed
-            </a>
-          </li>
+          <ToggleButton
+            componentId="Filters"
+            dataField="title"
+            defaultSelected={["All"]}
+            multiSelect={false}
+            customQuery={
+              function(data) {
+                let val;
+                if (Array.isArray(data)) {
+                  val = data[0].value;
+                }
+                const completed = (val === 'completed') ? 'true' : (val === 'active') ? 'false' : 'all';
+                console.log(`val: ${val}  completed: ${completed}`);
+
+                if (completed === 'all') {
+                  return {
+              			query: {
+              				match_all: {}
+              			}
+              		}
+                }
+
+                return {
+                  query: {
+                    bool: {
+                      must: [
+                        {
+                          match: {
+                            completed: completed
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+            data={
+              [
+                {"label": "All",        "value": "all"},
+                {"label": "Active",     "value": "active"},
+                {"label": "Completed",  "value": "completed"}
+              ]
+            }
+          />
         </ul>
         {clearButton}
       </footer>
