@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
+import { TextField } from '@appbaseio/reactivesearch';
+
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
@@ -27,7 +29,7 @@ class TodoItem extends Component {
   }
 
   handleEdit () {
-    this.props.onEdit();
+    this.props.onEdit(this.props.todo);
     this.setState({editText: this.props.todo.title})
   }
 
@@ -40,14 +42,18 @@ class TodoItem extends Component {
     }
   }
 
-  handleChange (event) {
+  handleChange (value) {
     if (this.props.editing) {
-      this.setState({editText: event.target.value})
+      this.setState({editText: value})
     }
   }
 
   getInitialState () {
     return {editText: this.props.todo.title}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps: ', nextProps);
   }
 
   /**
@@ -85,25 +91,34 @@ class TodoItem extends Component {
         completed: this.props.todo.completed,
         editing: this.props.editing
       })}>
-        <div className="view">
+        <div className="view" onDoubleClick={this.handleEdit.bind(this)}>
           <input
             className="toggle"
             type="checkbox"
             checked={this.props.todo.completed}
             onChange={this.props.onToggle}
           />
-          <label onDoubleClick={this.handleEdit.bind(this)}>
+          <label>
             {this.props.todo.title}
           </label>
           <button className="destroy" onClick={this.props.onDestroy} />
         </div>
-        <input
+        {/* <input
           ref="editField"
           className="edit"
           value={this.state.editText}
           onBlur={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
           onKeyDown={this.handleKeyDown.bind(this)}
+        /> */}
+        <TextField
+          componentId="EditSensor"
+          dataField="name"
+          className="edit-todo-container"
+          defaultSelected={this.state.edit}
+          onBlur={this.handleSubmit.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
+          onValueChange={this.handleChange.bind(this)}
         />
       </li>
     )
