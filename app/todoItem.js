@@ -14,23 +14,31 @@ class TodoItem extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      editText: ''
+      editText: '',
+      editing: false
     }
   }
 
   handleSubmit (event) {
     let val = this.state.editText.trim();
     if (val) {
+      console.log('item saving', val);
       this.props.onSave(val);
-      this.setState({editText: val})
+      this.setState({
+        editText: val,
+        editing: false
+      })
     } else {
       this.props.onDestroy()
     }
   }
 
   handleEdit () {
-    this.props.onEdit(this.props.todo);
-    this.setState({editText: this.props.todo.title})
+    // this.props.onEdit(this.props.todo);
+    this.setState({
+      editText: this.props.todo.title,
+      editing: true
+    })
   }
 
   handleKeyDown (event) {
@@ -43,17 +51,13 @@ class TodoItem extends Component {
   }
 
   handleChange (value) {
-    if (this.props.editing) {
-      this.setState({editText: value})
+    if (this.state.editing) {
+      this.setState({ editText: value })
     }
   }
 
   getInitialState () {
     return {editText: this.props.todo.title}
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps: ', nextProps);
   }
 
   /**
@@ -89,7 +93,7 @@ class TodoItem extends Component {
     return (
       <li className={classNames({
         completed: this.props.todo.completed,
-        editing: this.props.editing
+        editing: this.state.editing
       })}>
         <div className="view" onDoubleClick={this.handleEdit.bind(this)}>
           <input
@@ -115,7 +119,7 @@ class TodoItem extends Component {
           componentId="EditSensor"
           dataField="name"
           className="edit-todo-container"
-          defaultSelected={this.state.edit}
+          defaultSelected={this.state.editText}
           onBlur={this.handleSubmit.bind(this)}
           onKeyDown={this.handleKeyDown.bind(this)}
           onValueChange={this.handleChange.bind(this)}
