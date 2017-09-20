@@ -202,7 +202,7 @@ class TodoApp extends Component {
               componentId="ResultList01"
               stream={false}
               react={{
-                or: ["Filters"]
+                or: ["Filters", "EditSensor"]
               }}
               scrollOnTarget={window}
               onData={this.onData}

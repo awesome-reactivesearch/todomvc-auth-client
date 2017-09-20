@@ -82,11 +82,11 @@ class TodoItem extends Component {
    * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
    */
   componentDidUpdate (prevProps) {
-    if (!prevProps.editing && this.props.editing) {
-      let node = ReactDOM.findDOMNode(this.refs.editField);
-      node.focus();
-      node.setSelectionRange(node.value.length, node.value.length)
-    }
+    // if (!prevProps.editing && this.props.editing) {
+    //   let node = ReactDOM.findDOMNode(this.refs.editField);
+    //   node.focus();
+    //   node.setSelectionRange(node.value.length, node.value.length)
+    // }
   }
 
   render () {
