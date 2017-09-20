@@ -125,6 +125,7 @@ class TodoApp extends Component {
 	}
 
   render () {
+    console.log('nowShowing: ', this.state.nowShowing);
     let footer,
         main,
         todos = this.props.model.todos;

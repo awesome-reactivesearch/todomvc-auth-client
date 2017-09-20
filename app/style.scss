@@ -29,6 +29,7 @@
     // display: inline;
     @extend .filters;
     position: relative;
+    text-transform: capitalize;
   }
 }
 

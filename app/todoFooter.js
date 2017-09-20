@@ -26,6 +26,7 @@ class TodoFooter extends Component {
     }
 
     let nowShowing = this.props.nowShowing;
+    console.log('Footer:', nowShowing);
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -35,7 +36,7 @@ class TodoFooter extends Component {
           <ToggleButton
             componentId="Filters"
             dataField="title"
-            defaultSelected={["All"]}
+            defaultSelected={[nowShowing]}
             multiSelect={false}
             customQuery={
               function(data) {
@@ -71,9 +72,9 @@ class TodoFooter extends Component {
             }
             data={
               [
-                {"label": "All",        "value": "all"},
-                {"label": "Active",     "value": "active"},
-                {"label": "Completed",  "value": "completed"}
+                {"label": "all",        "value": "all"},
+                {"label": "active",     "value": "active"},
+                {"label": "completed",  "value": "completed"}
               ]
             }
           />
