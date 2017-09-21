@@ -22,6 +22,8 @@
     "url": "https://github.com/farhan687"
   },
   "devDependencies": {
+    "@appbaseio/reactivesearch": "^1.2.0",
+    "appbase-js": "^2.0.0-alpha-03",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -34,8 +36,6 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "@appbaseio/reactivesearch": "^1.1.0",
-    "appbase-js": "^0.11.1",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.7",
     "director": "^1.2.8",

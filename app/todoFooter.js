@@ -26,7 +26,6 @@ class TodoFooter extends Component {
     }
 
     let nowShowing = this.props.nowShowing;
-    console.log('Footer:', nowShowing);
     return (
       <footer className="footer">
         <span className="todo-count">
@@ -45,7 +44,7 @@ class TodoFooter extends Component {
                   val = data[0].value;
                 }
                 const completed = (val === 'completed') ? 'true' : (val === 'active') ? 'false' : 'all';
-                console.log(`val: ${val}  completed: ${completed}`);
+                // console.log(`val: ${val}  completed: ${completed}`);
 
                 if (completed === 'all') {
                   return {

@@ -181,8 +181,7 @@ class TodoApp extends Component {
         <header className="header">
           <h1>todos</h1>
           <TextField
-            componentId="NameTextSensor"
-            dataField="name"
+            componentId="NewTodoSensor"
             className="new-todo-container"
             placeholder="What needs to be done?"
             onKeyDown={this.handleNewTodoKeyDown.bind(this)}
@@ -201,7 +200,7 @@ class TodoApp extends Component {
           <ul className="todo-list">
             <ResultList
               componentId="ResultList01"
-              stream={false}
+              stream={true}
               react={{
                 or: ["Filters"]
               }}
