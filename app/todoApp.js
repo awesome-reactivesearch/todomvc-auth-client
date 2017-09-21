@@ -56,11 +56,9 @@ class TodoApp extends Component {
     if (event.keyCode !== ENTER_KEY) {
       return
     }
-    console.log('handleNewTodoKeyDown:', this.state.newTodo);
     event.preventDefault();
     const val = this.state.newTodo.trim();
     if (val) {
-      console.log('addTodo');
       this.props.model.addTodo(val);
       this.setState({newTodo: ''})
     }
@@ -84,7 +82,6 @@ class TodoApp extends Component {
   }
 
   save (todoToSave, text) {
-    console.log('saving', text, todoToSave);
     this.props.model.save(todoToSave, text);
     // this.setState({editing: null})
   }
@@ -125,7 +122,6 @@ class TodoApp extends Component {
 	}
 
   render () {
-    console.log('nowShowing: ', this.state.nowShowing);
     let footer,
         main,
         todos = this.props.model.todos;
