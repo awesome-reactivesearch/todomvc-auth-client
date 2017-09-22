@@ -33,8 +33,8 @@ class TodoFooter extends Component {
         </span>
         <ul className="filters">
           <ToggleButton
-            componentId="Filters"
-            dataField="title"
+            componentId="FiltersSensor"
+            dataField="completed"
             defaultSelected={[nowShowing]}
             multiSelect={false}
             customQuery={

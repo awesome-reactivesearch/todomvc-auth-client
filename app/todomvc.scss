@@ -522,3 +522,41 @@ html .clear-completed:active {
     bottom: 10px;
   }
 }
+
+// style.scss
+.new-todo-container {
+  .rbc-input {
+    @extend .new-todo;
+  }
+}
+
+.edit-todo-container {
+  .rbc-input {
+    @extend .edit;
+  }
+}
+
+.rbc-resultlist-container {
+  .rbc-resultlist-scroll-container {
+    .rbc-resultlist-item__details {
+      width: 100%;
+
+      label {
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}
+
+.footer {
+  .rbc-btn {
+    // display: inline;
+    @extend .filters;
+    position: relative;
+    text-transform: capitalize;
+  }
+}
+
+.rbc-poweredby {
+  display: none;
+}

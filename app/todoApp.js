@@ -12,7 +12,7 @@ import {
 import TodoItem from './todoItem';
 import TodoFooter from './todoFooter';
 
-import './style.scss';
+import './todomvc.scss';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -35,11 +35,6 @@ class TodoApp extends Component {
 
   componentDidMount () {
     let setState = this.setState;
-    // let router = Router({
-    //   '/': () => {debugger},
-    //   '/active': () => {debugger},
-    //   '/completed': () => {debugger}
-    // })
     let router = Router({
       '/': setState.bind(this, {nowShowing: ALL_TODOS}),
       '/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
@@ -178,6 +173,7 @@ class TodoApp extends Component {
           <h1>todos</h1>
           <TextField
             componentId="NewTodoSensor"
+            dataField="title"
             className="new-todo-container"
             placeholder="What needs to be done?"
             onKeyDown={this.handleNewTodoKeyDown.bind(this)}
@@ -195,15 +191,14 @@ class TodoApp extends Component {
           />
           <ul className="todo-list">
             <ResultList
-              componentId="ResultList01"
               stream={true}
               react={{
-                or: ["Filters"]
+                or: ["FiltersSensor"]
               }}
               scrollOnTarget={window}
-              onData={this.onData}
               showResultStats={false}
               pagination={false}
+              onData={this.onData}
             />
           </ul>
         </section>
