@@ -78,7 +78,8 @@ class TodoModel {
     const jsonObject = {
       id,
       title,
-      completed: false
+      completed: false,
+      createdAt: Date.now()
     };
 
     // optimistic logic

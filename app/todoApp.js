@@ -27,7 +27,7 @@ class TodoApp extends Component {
       editing: null,
       newTodo: ''
     }
-    this.onData = this.onData.bind(this);
+    this.onAllData = this.onAllData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
   }
@@ -71,17 +71,8 @@ class TodoApp extends Component {
     this.props.model.destroy(todo)
   }
 
-  edit (todo) {
-    // this.setState({editing: todo.id})
-  }
-
   save (todoToSave, text) {
     this.props.model.save(todoToSave, text);
-    // this.setState({editing: null})
-  }
-
-  cancel () {
-    // this.setState({editing: null})
   }
 
   clearCompleted () {
@@ -96,10 +87,48 @@ class TodoApp extends Component {
 		};
 	}
 
-  onData(data) {
-    console.log('onData: ', data);
-    let todo = data._source;
-			return (
+  onAllData(data) {
+    console.log('onAllData', data);
+
+    let { mode, newData, currentData } = data;
+    let todosData = [];
+
+    // streaming data
+    if (mode === 'streaming') {
+      // todo is deleted
+      if (newData && newData._deleted) {
+        todosData = currentData.filter(data => data._id !== newData._id)
+      } else {
+        let _updated = false;
+        todosData = currentData.map(data => {
+          // todo is updated
+          if (data._id === newData._id) {
+            _updated = true;
+            return newData;
+          } else {
+            return data;
+          }
+        })
+        // todo is added
+        if (!_updated) {
+          todosData = currentData;
+          todosData.push(newData);
+        }
+      }
+    } else {
+      // non-streaming data
+      if (Array.isArray(newData) && newData.length > 0) {
+        todosData = newData;
+      }
+    }
+
+    // sorting todos based on creation time
+    todosData = todosData.sort(function(a, b) {
+    	return a._source.createdAt > b._source.createdAt;
+    });
+
+    return todosData.map(({ _source: todo }) => {
+      return (
         <TodoItem
           key={todo.id}
           todo={{...todo}}
@@ -108,38 +137,13 @@ class TodoApp extends Component {
           onSave={this.save.bind(this, todo)}
         />
       );
-	}
+    }, this);
+  }
 
   render () {
     let footer,
         main,
         todos = this.props.model.todos;
-    // let shownTodos = todos.filter((todo) => {
-    //   switch (this.state.nowShowing) {
-    //     case ACTIVE_TODOS:
-    //       return !todo.completed;
-    //     case COMPLETED_TODOS:
-    //       return todo.completed;
-    //     default:
-    //       return true
-    //   }
-    // }, this);
-    //
-    // let todoItems = shownTodos.map((todo) => {
-    //   return (
-    //     <TodoItem
-    //       key={todo.id}
-    //       todo={{...todo}}
-    //       onToggle={this.toggle.bind(this, todo)}
-    //       onDestroy={this.destroy.bind(this, todo)}
-    //       onEdit={this.edit.bind(this, todo)}
-    //       editing={this.state.editing === todo.id}
-    //       onSave={this.save.bind(this, todo)}
-    //       onCancel={this.cancel.bind(this)}
-    //     />
-    //   )
-    // }, this);
-    //
 
     let activeTodoCount = todos.reduce((accum, todo) => {
       return todo.completed ? accum : accum + 1
@@ -192,7 +196,7 @@ class TodoApp extends Component {
               scrollOnTarget={window}
               showResultStats={false}
               pagination={false}
-              onData={this.onData}
+              onAllData={this.onAllData}
             />
           </ul>
         </section>
