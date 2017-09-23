@@ -47,6 +47,7 @@ class TodoFooter extends Component {
                 // console.log(`val: ${val}  completed: ${completed}`);
 
                 if (completed === 'all') {
+                  console.log('querying match all');
                   return {
               			query: {
               				match_all: {}

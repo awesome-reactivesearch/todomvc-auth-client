@@ -3,8 +3,7 @@
 import React, { Component } from 'react';
 import {
   ReactiveBase,
-  DataController,
-  ResultList,
+  ReactiveList,
   TextField,
   ToggleButton,
 } from '@appbaseio/reactivesearch';
@@ -44,7 +43,7 @@ class TodoApp extends Component {
   }
 
   handleChange (newTodo) {
-    this.setState({ newTodo: newTodo })
+    this.setState({ newTodo })
   }
 
   handleNewTodoKeyDown (event) {
@@ -97,23 +96,18 @@ class TodoApp extends Component {
 		};
 	}
 
-  onData(todo) {
-    console.log('onData: ', todo);
-		const result = {
-			desc: (
+  onData(data) {
+    console.log('onData: ', data);
+    let todo = data._source;
+			return (
         <TodoItem
           key={todo.id}
           todo={{...todo}}
           onToggle={this.toggle.bind(this, todo)}
           onDestroy={this.destroy.bind(this, todo)}
-          // onEdit={this.edit.bind(this, todo)}
-          // editing={this.state.editing === todo.id}
           onSave={this.save.bind(this, todo)}
-          // onCancel={this.cancel.bind(this)}
         />
-      ),
-		};
-		return result;
+      );
 	}
 
   render () {
@@ -165,8 +159,8 @@ class TodoApp extends Component {
 
     return (
       <ReactiveBase
-				app="todomvc_debug"
-				credentials="FaGR2mgH8:913c77f0-8d2f-455b-9742-3b54717a529a"
+				app="todomvc"
+				credentials="kDoV3s5Xk:4994cac6-00a3-4179-b159-b0adbfdde34b"
         type="todo_reactjs"
 			>
         <header className="header">
@@ -190,7 +184,7 @@ class TodoApp extends Component {
             checked={activeTodoCount === 0}
           />
           <ul className="todo-list">
-            <ResultList
+            <ReactiveList
               stream={true}
               react={{
                 or: ["FiltersSensor"]

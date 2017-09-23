@@ -13,8 +13,8 @@ class TodoModel {
     this.onChanges = [];
     this.appbaseRef = new Appbase({
       url: 'https://scalr.api.appbase.io',
-      app: 'todomvc_debug',
-      credentials: 'FaGR2mgH8:913c77f0-8d2f-455b-9742-3b54717a529a'
+      app: 'todomvc',
+      credentials: 'kQSlRKaSv:a081eec0-b85f-4953-a3d0-c18f94b26de4'
     });
 
     this.appbaseRef.search({
