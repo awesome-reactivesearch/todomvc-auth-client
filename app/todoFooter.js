@@ -49,10 +49,10 @@ class TodoFooter extends Component {
                 if (completed === 'all') {
                   console.log('querying match all');
                   return {
-              			query: {
-              				match_all: {}
-              			}
-              		}
+                    query: {
+                      match_all: {}
+                    }
+                  }
                 }
 
                 return {

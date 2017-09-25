@@ -42,9 +42,9 @@ class TodoModel {
       }
     }).on('data', (stream) => {
       let {
-            _deleted,
-            _source
-          } = stream;
+        _deleted,
+        _source
+      } = stream;
 
       if (_deleted) {
         this.todos = this.todos.filter(function (candidate) {

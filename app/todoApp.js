@@ -80,12 +80,12 @@ class TodoApp extends Component {
   }
 
   customQuery(value) {
-		return {
-			query: {
-				match_all: {}
-			}
-		};
-	}
+    return {
+      query: {
+        match_all: {}
+      }
+    };
+  }
 
   onAllData(data) {
     console.log('onAllData', data);
@@ -124,7 +124,7 @@ class TodoApp extends Component {
 
     // sorting todos based on creation time
     todosData = todosData.sort(function(a, b) {
-    	return a._source.createdAt > b._source.createdAt;
+      return a._source.createdAt > b._source.createdAt;
     });
 
     return todosData.map(({ _source: todo }) => {
@@ -142,8 +142,8 @@ class TodoApp extends Component {
 
   render () {
     let footer,
-        main,
-        todos = this.props.model.todos;
+    main,
+    todos = this.props.model.todos;
 
     let activeTodoCount = todos.reduce((accum, todo) => {
       return todo.completed ? accum : accum + 1
@@ -153,57 +153,57 @@ class TodoApp extends Component {
 
     if (activeTodoCount || completedCount) {
       footer =
-        <TodoFooter
-          count={activeTodoCount}
-          completedCount={completedCount}
-          nowShowing={this.state.nowShowing}
-          onClearCompleted={this.clearCompleted.bind(this)}
-        />
+      <TodoFooter
+        count={activeTodoCount}
+        completedCount={completedCount}
+        nowShowing={this.state.nowShowing}
+        onClearCompleted={this.clearCompleted.bind(this)}
+      />
     }
 
     return (
       <ReactiveBase
-				app="todomvc"
-				credentials="kDoV3s5Xk:4994cac6-00a3-4179-b159-b0adbfdde34b"
+        app="todomvc"
+        credentials="kDoV3s5Xk:4994cac6-00a3-4179-b159-b0adbfdde34b"
         type="todo_reactjs"
-			>
-        <header className="header">
-          <h1>todos</h1>
-          <TextField
-            componentId="NewTodoSensor"
-            dataField="title"
-            className="new-todo-container"
-            placeholder="What needs to be done?"
-            onKeyDown={this.handleNewTodoKeyDown.bind(this)}
-            onValueChange={this.handleChange.bind(this)}
-            defaultSelected={this.state.newTodo}
-          />
-        </header>
-
-        <section className="main">
-          <input
-            className="toggle-all"
-            type="checkbox"
-            onChange={this.toggleAll.bind(this)}
-            checked={activeTodoCount === 0}
-          />
-          <ul className="todo-list">
-            <ReactiveList
-              stream={true}
-              react={{
-                or: ["FiltersSensor"]
-              }}
-              scrollOnTarget={window}
-              showResultStats={false}
-              pagination={false}
-              onAllData={this.onAllData}
+        >
+          <header className="header">
+            <h1>todos</h1>
+            <TextField
+              componentId="NewTodoSensor"
+              dataField="title"
+              className="new-todo-container"
+              placeholder="What needs to be done?"
+              onKeyDown={this.handleNewTodoKeyDown.bind(this)}
+              onValueChange={this.handleChange.bind(this)}
+              defaultSelected={this.state.newTodo}
             />
-          </ul>
-        </section>
-        {footer}
-      </ReactiveBase>
-    )
-  }
-}
+          </header>
 
-export default TodoApp;
+          <section className="main">
+            <input
+              className="toggle-all"
+              type="checkbox"
+              onChange={this.toggleAll.bind(this)}
+              checked={activeTodoCount === 0}
+            />
+            <ul className="todo-list">
+              <ReactiveList
+                stream={true}
+                react={{
+                  or: ["FiltersSensor"]
+                }}
+                scrollOnTarget={window}
+                showResultStats={false}
+                pagination={false}
+                onAllData={this.onAllData}
+              />
+            </ul>
+          </section>
+          {footer}
+        </ReactiveBase>
+      )
+    }
+  }
+
+  export default TodoApp;
