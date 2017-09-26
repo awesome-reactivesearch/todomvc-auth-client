@@ -119,12 +119,14 @@ class TodoApp extends Component {
       // non-streaming data
       if (Array.isArray(newData) && newData.length > 0) {
         todosData = newData;
+      } else if (Array.isArray(currentData) && currentData.length > 0) {
+        todosData = currentData;
       }
     }
 
     // sorting todos based on creation time
     todosData = todosData.sort(function(a, b) {
-      return a._source.createdAt > b._source.createdAt;
+      return a._source.createdAt - b._source.createdAt;
     });
 
     return todosData.map(({ _source: todo }) => {
