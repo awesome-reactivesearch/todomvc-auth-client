@@ -43,11 +43,11 @@ class TodoFooter extends Component {
                 if (Array.isArray(data)) {
                   val = data[0].value;
                 }
-                const completed = (val === 'completed') ? 'true' : (val === 'active') ? 'false' : 'all';
-                // console.log(`val: ${val}  completed: ${completed}`);
+                const completed = (val === 'completed') ? true : (val === 'active') ? false : 'all';
+                console.log(`val: ${val}  completed: ${completed}`);
 
                 if (completed === 'all') {
-                  // console.log('querying match all');
+                  console.log('querying match all');
                   return {
                     query: {
                       match_all: {}
@@ -56,12 +56,12 @@ class TodoFooter extends Component {
                 }
 
                 return {
-                  query: {
-                    bool: {
-                      must: [
+                  "query": {
+                    "bool": {
+                      "must": [
                         {
-                          match: {
-                            completed: completed
+                          "match": {
+                            "completed": completed
                           }
                         }
                       ]

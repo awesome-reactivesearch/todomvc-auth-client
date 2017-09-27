@@ -21,11 +21,11 @@ class TodoItem extends Component {
   }
 
   handleBlur (event) {
-    console.log("blurr");
+    // console.log("blurr");
   }
 
   handleSubmit (event) {
-    console.log('handleSubmit', event);
+    // console.log('handleSubmit', event);
     let val = this.state.editText.trim();
     if (val) {
       this.props.onSave(val);
@@ -39,7 +39,7 @@ class TodoItem extends Component {
   }
 
   onBlur () {
-    console.log('onBlur');
+    // console.log('onBlur');
     this.setState({
       editText: '',
       editing: false
@@ -82,7 +82,7 @@ class TodoItem extends Component {
   */
   componentDidUpdate (prevProps, prevState) {
     if (!prevState.editing && this.state.editing) {
-      console.log("Setting focus");
+      // console.log("Setting focus");
       this.setState({ autoFocus: true });
       // let node = ReactDOM.findDOMNode(this.refs.editField);
       // node.focus();
@@ -91,7 +91,7 @@ class TodoItem extends Component {
   }
 
   render () {
-    console.log("render: autoFocus state", this.state.autoFocus);
+    // console.log("render: autoFocus state", this.state.autoFocus);
     return (
       <li className={classNames({
         completed: this.props.todo.completed,
