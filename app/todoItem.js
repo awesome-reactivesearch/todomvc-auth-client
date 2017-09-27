@@ -15,8 +15,13 @@ class TodoItem extends Component {
     super(props);
     this.state = {
       editText: '',
-      editing: false
+      editing: false,
+      autoFocus: false
     }
+  }
+
+  handleBlur (event) {
+    console.log("blurr");
   }
 
   handleSubmit (event) {
@@ -76,43 +81,47 @@ class TodoItem extends Component {
   * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
   */
   componentDidUpdate (prevProps, prevState) {
-    // if (!prevState.editing && this.state.editing) {
-    //   let node = ReactDOM.findDOMNode(this.refs.editField);
-    //   node.focus();
-    //   node.setSelectionRange(node.value.length, node.value.length)
-    // }
+    if (!prevState.editing && this.state.editing) {
+      console.log("Setting focus");
+      this.setState({ autoFocus: true });
+      // let node = ReactDOM.findDOMNode(this.refs.editField);
+      // node.focus();
+      // node.setSelectionRange(node.value.length, node.value.length)
+    }
   }
 
   render () {
+    console.log("render: autoFocus state", this.state.autoFocus);
     return (
       <li className={classNames({
         completed: this.props.todo.completed,
         editing: this.state.editing
       })}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={this.props.todo.completed}
-            onChange={this.props.onToggle}
-          />
-          <label onDoubleClick={this.handleEdit.bind(this)}>
-            {this.props.todo.title}
-          </label>
-          <button className="destroy" onClick={this.props.onDestroy} />
-        </div>
-        <TextField
-          componentId="EditSensor"
-          dataField="name"
-          className="edit-todo-container"
-          defaultSelected={this.state.editText}
-          onBlur={this.handleSubmit.bind(this)}
-          onKeyDown={this.handleKeyDown.bind(this)}
-          onValueChange={this.handleChange.bind(this)}
+      <div className="view">
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={this.props.todo.completed}
+          onChange={this.props.onToggle}
         />
-      </li>
-    )
-  }
+        <label onDoubleClick={this.handleEdit.bind(this)}>
+          {this.props.todo.title}
+        </label>
+        <button className="destroy" onClick={this.props.onDestroy} />
+      </div>
+      <TextField
+        autoFocus={this.state.autoFocus}
+        componentId="EditSensor"
+        dataField="name"
+        className="edit-todo-container"
+        defaultSelected={this.state.editText}
+        onBlur={this.handleBlur.bind(this)}
+        onKeyDown={this.handleKeyDown.bind(this)}
+        onValueChange={this.handleChange.bind(this)}
+      />
+    </li>
+  )
+}
 }
 
 export default TodoItem;

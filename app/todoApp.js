@@ -179,6 +179,7 @@ class TodoApp extends Component {
               onKeyDown={this.handleNewTodoKeyDown.bind(this)}
               onValueChange={this.handleChange.bind(this)}
               defaultSelected={this.state.newTodo}
+              autoFocus={true}
             />
           </header>
 
