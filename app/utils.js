@@ -27,6 +27,44 @@ class Utils {
     let datastored = localStorage.getItem(namespace);
     return (datastored && JSON.parse(datastored)) || []
   }
+
+  static mergeTodos ({ mode, newData, currentData }) {
+
+    let todosData = [];
+
+    // streaming data
+    if (mode === 'streaming') {
+      // todo is deleted
+      if (newData && newData._deleted) {
+        todosData = currentData.filter(data => data._id !== newData._id)
+      } else {
+        let _updated = false;
+        todosData = currentData.map(data => {
+          // todo is updated
+          if (data._id === newData._id) {
+            _updated = true;
+            return newData;
+          } else {
+            return data;
+          }
+        })
+        // todo is added
+        if (!_updated) {
+          todosData = currentData;
+          todosData.push(newData);
+        }
+      }
+    } else {
+      // non-streaming data
+      if (Array.isArray(newData) && newData.length > 0) {
+        todosData = newData;
+      } else if (Array.isArray(currentData) && currentData.length > 0) {
+        todosData = currentData;
+      }
+    }
+
+    return todosData;
+  }
 }
 
 export default Utils;

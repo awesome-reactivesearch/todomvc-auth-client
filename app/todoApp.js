@@ -5,9 +5,10 @@ import {
   ReactiveBase,
   ReactiveList,
   TextField,
-  ToggleButton,
+  ToggleButton
 } from '@appbaseio/reactivesearch';
 
+import Utils from './utils';
 import TodoItem from './todoItem';
 import TodoFooter from './todoFooter';
 
@@ -88,41 +89,9 @@ class TodoApp extends Component {
   }
 
   onAllData(data) {
-    console.log('onAllData', data);
 
-    let { mode, newData, currentData } = data;
-    let todosData = [];
-
-    // streaming data
-    if (mode === 'streaming') {
-      // todo is deleted
-      if (newData && newData._deleted) {
-        todosData = currentData.filter(data => data._id !== newData._id)
-      } else {
-        let _updated = false;
-        todosData = currentData.map(data => {
-          // todo is updated
-          if (data._id === newData._id) {
-            _updated = true;
-            return newData;
-          } else {
-            return data;
-          }
-        })
-        // todo is added
-        if (!_updated) {
-          todosData = currentData;
-          todosData.push(newData);
-        }
-      }
-    } else {
-      // non-streaming data
-      if (Array.isArray(newData) && newData.length > 0) {
-        todosData = newData;
-      } else if (Array.isArray(currentData) && currentData.length > 0) {
-        todosData = currentData;
-      }
-    }
+    // merging all streaming and historic data
+    var todosData = Utils.mergeTodos(data);
 
     // sorting todos based on creation time
     todosData = todosData.sort(function(a, b) {

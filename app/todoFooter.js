@@ -2,8 +2,12 @@
 
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import {
+  ToggleButton,
+  ReactiveElement,
+  DataController
+} from '@appbaseio/reactivesearch';
 
-import  { ToggleButton } from '@appbaseio/reactivesearch';
 import Utils from './utils';
 
 const ALL_TODOS = 'all';
@@ -11,8 +15,24 @@ const ACTIVE_TODOS = 'active';
 const COMPLETED_TODOS = 'completed';
 
 class TodoFooter extends Component {
+
+  onAllData (data) {
+    // merging all streaming and historic data
+    var todosData = Utils.mergeTodos(data);
+
+    let activeTodoCount = todosData.reduce((accum, todo) => {
+      return todo._source.completed ? accum : accum + 1
+    }, 0)
+
+    let activeTodoWord = Utils.pluralize(activeTodoCount, 'item');
+    return(
+      <span className="todo-count">
+        <strong>{activeTodoCount}</strong> {activeTodoWord} left
+      </span>
+    )
+  }
+
   render () {
-    let activeTodoWord = Utils.pluralize(this.props.count, 'item');
     let clearButton = null;
 
     if (this.props.completedCount > 0) {
@@ -28,9 +48,29 @@ class TodoFooter extends Component {
     let nowShowing = this.props.nowShowing;
     return (
       <footer className="footer">
-        <span className="todo-count">
-          <strong>{this.props.count}</strong> {activeTodoWord} left
-        </span>
+        <DataController
+          componentId="ActiveCountSensor"
+          visible={false}
+          showFilter={false}
+          customQuery={
+            function(value) {
+              return {
+                query: {
+                  match_all: {}
+                }
+              }
+            }
+          }
+        />
+        <ReactiveElement
+          componentId="ActiveCount"
+          stream={true}
+          showResultStats={false}
+          onAllData={this.onAllData.bind(this)}
+          react={{
+            or: ["ActiveCountSensor"]
+          }}
+        />
         <ul className="filters">
           <ToggleButton
             componentId="FiltersSensor"
@@ -44,10 +84,8 @@ class TodoFooter extends Component {
                   val = data[0].value;
                 }
                 const completed = (val === 'completed') ? true : (val === 'active') ? false : 'all';
-                console.log(`val: ${val}  completed: ${completed}`);
 
                 if (completed === 'all') {
-                  console.log('querying match all');
                   return {
                     query: {
                       match_all: {}
