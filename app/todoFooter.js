@@ -25,6 +25,7 @@ class TodoFooter extends Component {
     }, 0)
 
     let activeTodoWord = Utils.pluralize(activeTodoCount, 'item');
+
     return(
       <span className="todo-count">
         <strong>{activeTodoCount}</strong> {activeTodoWord} left
