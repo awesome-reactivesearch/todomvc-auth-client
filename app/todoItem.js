@@ -41,7 +41,7 @@ class TodoItem extends Component {
   onBlur () {
     console.log('onBlur');
     this.setState({
-      editText: '',
+      editText: this.props.todo.title,
       editing: false
     }, (data) => {
       console.log("@onBlur: After setState", this.state);
@@ -86,41 +86,46 @@ class TodoItem extends Component {
     if (!prevState.editing && this.state.editing) {
       console.log("Setting focus");
       this.setState({ autoFocus: true });
-      // let node = ReactDOM.findDOMNode(this.refs.editField);
-      // node.focus();
-      // node.setSelectionRange(node.value.length, node.value.length)
+
+      // workaround because after setState re-rendering is not happening 
+      let node = ReactDOM.findDOMNode(this.refs.editField);
+      node = node.childNodes[0].children[0];
+      node.focus();
+      node.setSelectionRange(node.value.length, node.value.length)
     }
   }
 
   render () {
-    console.log("@render: state.autoFocus =", this.state.autoFocus);
+    console.log("@render: state =", this.state);
     return (
       <li className={classNames({
         completed: this.props.todo.completed,
         editing: this.state.editing
-      })}>
-      <div className="view">
-        <input
-          className="toggle"
-          type="checkbox"
-          checked={this.props.todo.completed}
-          onChange={this.props.onToggle}
+      })}
+      >
+        <div className="view">
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={this.props.todo.completed}
+            onChange={this.props.onToggle}
+          />
+          <label onDoubleClick={this.handleEdit.bind(this)}>
+            {this.props.todo.title}
+          </label>
+          <button className="destroy" onClick={this.props.onDestroy} />
+        </div>
+        <TextField
+          ref="editField"
+          autoFocus={this.state.autoFocus}
+          componentId="EditSensor"
+          dataField="name"
+          className="edit-todo-container"
+          defaultSelected={this.state.editText}
+          onBlur={this.handleBlur.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
+          onValueChange={this.handleChange.bind(this)}
         />
-        <label onDoubleClick={this.handleEdit.bind(this)}>
-          {this.props.todo.title}
-        </label>
-        <button className="destroy" onClick={this.props.onDestroy} />
-      </div>
-      <TextField
-        autoFocus={this.state.autoFocus}
-        componentId="EditSensor"
-        dataField="name"
-        className="edit-todo-container"
-        defaultSelected={this.state.editText}
-        onBlur={this.handleBlur.bind(this)}
-        onKeyDown={this.handleKeyDown.bind(this)}
-        onValueChange={this.handleChange.bind(this)}
-      />
     </li>
   )
 }
