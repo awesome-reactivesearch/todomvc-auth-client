@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@appbaseio/reactivebase@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivebase/-/reactivebase-1.3.2.tgz#60f50286c21aa3e7031da88d93982c5c7c99764d"
+"@appbaseio/reactivebase@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivebase/-/reactivebase-1.3.3.tgz#60a954dd16f22033fcab7cfa304c5ce552a993c8"
   dependencies:
     appbase-js "2.0.0"
     classnames "^2.2.5"
@@ -20,22 +20,22 @@
     react-select "^1.0.0-rc.3"
     url-search-params "^0.8.0"
 
-"@appbaseio/reactivemaps@1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivemaps/-/reactivemaps-1.3.2.tgz#13a1f38063ab5c3509a03c2477cecca7a345cbbc"
+"@appbaseio/reactivemaps@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivemaps/-/reactivemaps-1.3.3.tgz#74d255f4caf9f581278f9bf46214c9aff9c77754"
   dependencies:
-    "@appbaseio/reactivebase" "1.3.2"
+    "@appbaseio/reactivebase" "1.3.3"
     axios "^0.15.2"
     google-map-react "^0.14.5"
     google-maps "^3.2.1"
     node-sass "^4.5.1"
     react-google-maps "^4.11.0"
 
-"@appbaseio/reactivesearch@^1.2.0":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivesearch/-/reactivesearch-1.3.2.tgz#1c3db9bea359a1a37b5b4945e1b93653524fb04c"
+"@appbaseio/reactivesearch@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@appbaseio/reactivesearch/-/reactivesearch-1.3.3.tgz#e6fdac1a5cf8e6d1771b62778f815f4b8a2ea008"
   dependencies:
-    "@appbaseio/reactivemaps" "1.3.2"
+    "@appbaseio/reactivemaps" "1.3.3"
     react-stars "^2.1.0"
 
 abbrev@1:
@@ -144,9 +144,9 @@ appbase-js@2.0.0:
     url "^0.11.0"
     ws "^2.2.0"
 
-appbase-js@^2.0.0-alpha-03:
-  version "2.0.0-alpha-03"
-  resolved "https://registry.yarnpkg.com/appbase-js/-/appbase-js-2.0.0-alpha-03.tgz#867b2537e212758726d84fcc13aa2632a405b782"
+appbase-js@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/appbase-js/-/appbase-js-2.1.0.tgz#6d3c065bef10da50b012cff9aae0bb85df602f88"
   dependencies:
     babel-polyfill "^6.26.0"
     es6-promise "^4.1.1"
@@ -154,7 +154,6 @@ appbase-js@^2.0.0-alpha-03:
     fetch-everywhere "^1.0.5"
     guid "0.0.12"
     json-stable-stringify "^1.0.1"
-    json-stream "^1.0.0"
     stream "^0.0.2"
     url "^0.11.0"
     ws "^2.2.0"
@@ -2604,10 +2603,6 @@ json-stable-stringify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
   dependencies:
     jsonify "~0.0.0"
-
-json-stream@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/json-stream/-/json-stream-1.0.0.tgz#1a3854e28d2bbeeab31cc7ddf683d2ddc5652708"
 
 json-stringify-safe@~5.0.1:
   version "5.0.1"
