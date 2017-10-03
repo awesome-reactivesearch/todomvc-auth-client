@@ -1,7 +1,7 @@
 # TodoMVC - ReactiveSearch
 
 ```
-git clone https://github.com/dhruvdutt/todomvc-appbase.git
+git clone https://github.com/appbaseio-apps/todomvc.git
 ```
 
 
