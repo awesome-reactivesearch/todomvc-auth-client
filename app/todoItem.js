@@ -21,12 +21,13 @@ class TodoItem extends Component {
   }
 
   handleBlur (event) {
-    console.log("blurr");
-    this.onBlur();
+    this.setState({
+      editText: this.props.todo.title,
+      editing: false
+    });
   }
 
   handleSubmit (event) {
-    console.log('handleSubmit', event);
     let val = this.state.editText.trim();
     if (val) {
       this.props.onSave(val);
@@ -37,16 +38,6 @@ class TodoItem extends Component {
     } else {
       this.props.onDestroy()
     }
-  }
-
-  onBlur () {
-    console.log('onBlur');
-    this.setState({
-      editText: this.props.todo.title,
-      editing: false
-    }, (data) => {
-      console.log("@onBlur: After setState", this.state);
-    })
   }
 
   handleEdit () {
@@ -85,7 +76,6 @@ class TodoItem extends Component {
   */
   componentDidUpdate (prevProps, prevState) {
     if (!prevState.editing && this.state.editing) {
-      console.log("Setting focus");
       this.setState({ autoFocus: true });
 
       // workaround because after setState re-rendering is not happening 
@@ -97,7 +87,6 @@ class TodoItem extends Component {
   }
 
   render () {
-    console.log("@render: state =", this.state);
     return (
       <li className={classNames({
         completed: this.props.todo.completed,
