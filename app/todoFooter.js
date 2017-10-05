@@ -1,18 +1,18 @@
 // Based on: https://github.com/tastejs/todomvc/blob/gh-pages/examples/react/js/footer.jsx
 
-import React, { Component } from 'react';
-import classNames from 'classnames';
+import React, { Component } from "react";
+import classNames from "classnames";
 import {
   ToggleButton,
   ReactiveElement,
   DataController
-} from '@appbaseio/reactivesearch';
+} from "@appbaseio/reactivesearch";
 
-import Utils from './utils';
+import Utils from "./utils";
 
-const ALL_TODOS = 'all';
-const ACTIVE_TODOS = 'active';
-const COMPLETED_TODOS = 'completed';
+const ALL_TODOS = "all";
+const ACTIVE_TODOS = "active";
+const COMPLETED_TODOS = "completed";
 
 class TodoFooter extends Component {
 
@@ -24,7 +24,7 @@ class TodoFooter extends Component {
       return todo._source.completed ? accum : accum + 1
     }, 0)
 
-    let activeTodoWord = Utils.pluralize(activeTodoCount, 'item');
+    let activeTodoWord = Utils.pluralize(activeTodoCount, "item");
 
     return(
       <span className="todo-count">
@@ -84,9 +84,9 @@ class TodoFooter extends Component {
                 if (Array.isArray(data)) {
                   val = data[0].value;
                 }
-                const completed = (val === 'completed') ? true : (val === 'active') ? false : 'all';
+                const completed = (val === "completed") ? true : (val === "active") ? false : "all";
 
-                if (completed === 'all') {
+                if (completed === "all") {
                   return {
                     query: {
                       match_all: {}

@@ -1,24 +1,24 @@
 // Based on: https://github.com/tastejs/todomvc/blob/gh-pages/examples/react/js/app.jsx
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   ReactiveBase,
   ReactiveList,
   TextField,
   ToggleButton
-} from '@appbaseio/reactivesearch';
+} from "@appbaseio/reactivesearch";
 
-import Utils from './utils';
-import TodoItem from './todoItem';
-import TodoFooter from './todoFooter';
+import Utils from "./utils";
+import TodoItem from "./todoItem";
+import TodoFooter from "./todoFooter";
 
-import './todomvc.scss';
+import "./todomvc.scss";
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
-const ALL_TODOS = 'all';
-const ACTIVE_TODOS = 'active';
-const COMPLETED_TODOS = 'completed';
+const ALL_TODOS = "all";
+const ACTIVE_TODOS = "active";
+const COMPLETED_TODOS = "completed";
 
 class TodoApp extends Component {
   constructor (props) {
@@ -26,7 +26,7 @@ class TodoApp extends Component {
     this.state = {
       nowShowing: ALL_TODOS,
       editing: null,
-      newTodo: ''
+      newTodo: ""
     }
     this.onAllData = this.onAllData.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,11 +36,11 @@ class TodoApp extends Component {
   componentDidMount () {
     let setState = this.setState;
     let router = Router({
-      '/': setState.bind(this, {nowShowing: ALL_TODOS}),
-      '/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-      '/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
+      "/": setState.bind(this, {nowShowing: ALL_TODOS}),
+      "/active": setState.bind(this, {nowShowing: ACTIVE_TODOS}),
+      "/completed": setState.bind(this, {nowShowing: COMPLETED_TODOS})
     });
-    router.init('/')
+    router.init("/")
   }
 
   handleChange (newTodo) {
@@ -55,7 +55,7 @@ class TodoApp extends Component {
     const val = this.state.newTodo.trim();
     if (val) {
       this.props.model.addTodo(val);
-      this.setState({newTodo: ''})
+      this.setState({newTodo: ""})
     }
   }
 

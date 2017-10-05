@@ -1,10 +1,10 @@
 // Based on: https://github.com/tastejs/todomvc/blob/gh-pages/examples/react/js/todoItem.jsx
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import classNames from "classnames";
 
-import { TextField } from '@appbaseio/reactivesearch';
+import { TextField } from "@appbaseio/reactivesearch";
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -14,7 +14,7 @@ class TodoItem extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      editText: '',
+      editText: "",
       editing: false,
       autoFocus: false
     }

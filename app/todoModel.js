@@ -1,10 +1,10 @@
 // Based on: https://github.com/tastejs/todomvc/blob/gh-pages/examples/react/js/todoModel.js
 
-import Appbase from 'appbase-js';
+import Appbase from "appbase-js";
 
-import Utils from './utils';
+import Utils from "./utils";
 
-const ES_TYPE = 'todo_reactjs';
+const ES_TYPE = "todo_reactjs";
 
 class TodoModel {
   constructor (key) {
@@ -12,9 +12,9 @@ class TodoModel {
     this.todos = [];
     this.onChanges = [];
     this.appbaseRef = new Appbase({
-      url: 'https://scalr.api.appbase.io',
-      app: 'todomvc',
-      credentials: 'kQSlRKaSv:a081eec0-b85f-4953-a3d0-c18f94b26de4'
+      url: "https://scalr.api.appbase.io",
+      app: "todomvc",
+      credentials: "kQSlRKaSv:a081eec0-b85f-4953-a3d0-c18f94b26de4"
     });
 
     this.appbaseRef.search({
@@ -25,11 +25,11 @@ class TodoModel {
           match_all: {}
         }
       }
-    }).on('data', ({hits: {hits = []} = {}} = {}) => {
+    }).on("data", ({hits: {hits = []} = {}} = {}) => {
       this.todos = hits.map(({_source = {}} = {}) => _source);
       this.inform();
       console.log("search, match: ", hits)
-    }).on('error', (error) => {
+    }).on("error", (error) => {
       console.log("caught a search error: ", error)
     });
 
@@ -40,7 +40,7 @@ class TodoModel {
           match_all: {}
         }
       }
-    }).on('data', (stream) => {
+    }).on("data", (stream) => {
       let {
         _deleted,
         _source
@@ -58,7 +58,7 @@ class TodoModel {
       // this.todos = hits.map(({_source = {}} = {}) => _source)
       this.inform();
       console.log("searchStream, new match: ", stream)
-    }).on('error', (error) => {
+    }).on("error", (error) => {
       console.log("caught a searchStream, error: ", error)
     })
   }
@@ -91,16 +91,16 @@ class TodoModel {
       type: ES_TYPE,
       id: id,
       body: jsonObject
-    }).on('data', function(response) {
+    }).on("data", function(response) {
       console.log(response)
-    }).on('error', function(error) {
+    }).on("error", function(error) {
       console.log(error)
     })
   }
 
   toggleAll (checked) {
-    // Note: it's usually better to use immutable data structures since they're
-    // easier to reason about and React works very well with them. That's why
+    // Note: it"s usually better to use immutable data structures since they"re
+    // easier to reason about and React works very well with them. That"s why
     // we use map() and filter() everywhere instead of mutating the array or
     // todo items themselves.
     this.todos = this.todos.map((todo) => ({
@@ -138,9 +138,9 @@ class TodoModel {
         ...todoToToggle,
         completed: !todoToToggle.completed
       }
-    }).on('data', function(response) {
+    }).on("data", function(response) {
       console.log(response)
-    }).on('error', function(error) {
+    }).on("error", function(error) {
       console.log(error)
     })
   };
@@ -156,9 +156,9 @@ class TodoModel {
     this.appbaseRef.delete({
       type: ES_TYPE,
       id: todo.id
-    }).on('data', function(response) {
+    }).on("data", function(response) {
       console.log(response)
-    }).on('error', function(error) {
+    }).on("error", function(error) {
       console.log(error)
     })
   }
@@ -181,9 +181,9 @@ class TodoModel {
         ...todoToSave,
         title: text
       }
-    }).on('data', function(response) {
+    }).on("data", function(response) {
       console.log(response)
-    }).on('error', function(error) {
+    }).on("error", function(error) {
       console.log(error)
     })
   }

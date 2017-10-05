@@ -2,12 +2,12 @@
 
 class Utils {
   static uuid () {
-    let i, random, id = '';
+    let i, random, id = "";
 
     for (i = 0; i < 32; i++) {
       random = Math.random() * 16 | 0;
       if (i === 8 || i === 12 || i === 16 || i === 20) {
-        id += '-'
+        id += "-"
       }
       id += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random))
       .toString(16)
@@ -16,7 +16,7 @@ class Utils {
   }
 
   static pluralize (count, word) {
-    return count === 1 ? word : word + 's'
+    return count === 1 ? word : word + "s"
   }
 
   static store (namespace, data) {
@@ -33,7 +33,7 @@ class Utils {
     let todosData = [];
 
     // streaming data
-    if (mode === 'streaming') {
+    if (mode === "streaming") {
       // todo is deleted
       if (newData && newData._deleted) {
         todosData = currentData.filter(data => data._id !== newData._id)

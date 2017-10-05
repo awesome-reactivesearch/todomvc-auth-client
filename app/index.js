@@ -9,18 +9,18 @@
 
 // Based on: http://todomvc.com/examples/react/#/
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import TodoModel from './todoModel';
-import TodoApp from './todoApp';
+import TodoModel from "./todoModel";
+import TodoApp from "./todoApp";
 
-let model = new TodoModel('react-todos');
+let model = new TodoModel("react-todos");
 
 let render = () => {
   ReactDOM.render(
     <TodoApp model={model}/>,
-    document.getElementsByClassName('todoapp')[0]
+    document.getElementsByClassName("todoapp")[0]
   )
 };
 
