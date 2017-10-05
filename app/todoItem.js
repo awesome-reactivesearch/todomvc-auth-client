@@ -22,6 +22,7 @@ class TodoItem extends Component {
 
   handleBlur (event) {
     console.log("blurr");
+    this.onBlur();
   }
 
   handleSubmit (event) {
