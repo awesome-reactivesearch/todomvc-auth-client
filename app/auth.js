@@ -7,7 +7,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'divyanshu.auth0.com',
     clientID: 'gnXmrO24CGNBuYtfGgblgOHM2GESYQ5N',
-    redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:8001/callback' : 'https://appbaseio-apps.github.io/todomvc-appbase/callback',
+    redirectUri: process.env.NODE_ENV === 'development' ? 'http://localhost:8001/callback' : 'https://appbaseio-apps.github.io/todomvc-auth-client/callback',
     audience: 'https://todomvappbase',
     responseType: 'token id_token',
     scope: 'openid profile'
