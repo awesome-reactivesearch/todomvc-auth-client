@@ -4,7 +4,7 @@
   "description": "todomvc-appbase",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --port 8001",
+    "start": "NODE_ENV=development webpack-dev-server --inline --hot --history-api-fallback --port 8001",
     "build": "webpack -p"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "appbase-js": "^2.1.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
@@ -36,12 +37,16 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
+    "auth0-js": "^8.10.1",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.7",
     "director": "^1.2.8",
     "node-sass": "^4.5.3",
     "react": "15.4.2",
     "react-dom": "15.4.2",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-tooltip": "^3.3.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "todomvc-app-css": "^2.1.0",
