@@ -1,38 +1,34 @@
-@import "./todomvc";
-
-.new-todo-container {
-  .rbc-input {
-    @extend .new-todo;
-  }
+.auth-text {
+  text-align: center;
+  padding-top: 1em;
+  font-size: 1.2em;
 }
 
-.edit-todo-container {
-  .rbc-input {
-    @extend .edit;
-  }
+.auth-link {
+  cursor: pointer;
+  color: rgba(175, 47, 47, 0.58);
 }
 
-.rbc-resultlist-container {
-  .rbc-resultlist-scroll-container {
-    .rbc-resultlist-item__details {
-      width: 100%;
-
-      label {
-        margin-left: 0.3rem;
-      }
-    }
-  }
+.user-avatar {
+  height: 50px;
+  margin-right: 50px;
+  border-radius: 50%;
 }
 
-.footer {
-  .rbc-btn {
-    // display: inline;
-    @extend .filters;
-    position: relative;
-    text-transform: capitalize;
-  }
+li.completed .user-avatar {
+  opacity: 0.5;
 }
 
-.rbc-poweredby {
-  display: none;
+.todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input.toggle {
+  cursor: pointer;
+}
+
+input.toggle-all {
+  cursor: pointer;
 }

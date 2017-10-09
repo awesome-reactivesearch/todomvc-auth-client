@@ -13,6 +13,7 @@ import TodoItem from "./todoItem";
 import TodoFooter from "./todoFooter";
 
 import "./todomvc.scss";
+import "./style.scss";
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -33,21 +34,27 @@ class TodoApp extends Component {
     this.clearCompleted = this.clearCompleted.bind(this);
   }
 
-  componentDidMount () {
-    let setState = this.setState;
-    let router = Router({
-      "/": setState.bind(this, {nowShowing: ALL_TODOS}),
-      "/active": setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-      "/completed": setState.bind(this, {nowShowing: COMPLETED_TODOS})
-    });
-    router.init("/")
-  }
+  // componentDidMount () {
+  //   let setState = this.setState;
+  //   // let router = Router({
+  //   //   "/": setState.bind(this, {nowShowing: ALL_TODOS}),
+  //   //   "/active": setState.bind(this, {nowShowing: ACTIVE_TODOS}),
+  //   //   "/completed": setState.bind(this, {nowShowing: COMPLETED_TODOS})
+  //   // });
+  //   // router.init("/")
+  // }
 
   handleChange (newTodo) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     this.setState({ newTodo })
   }
 
   handleNewTodoKeyDown (event) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     if (event.keyCode !== ENTER_KEY) {
       return
     }
@@ -60,23 +67,38 @@ class TodoApp extends Component {
   }
 
   toggleAll (event) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     let checked = event.target.checked;
     this.props.model.toggleAll(checked)
   }
 
   toggle (todoToToggle) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     this.props.model.toggle(todoToToggle)
   }
 
   destroy (todo) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     this.props.model.destroy(todo)
   }
 
   save (todoToSave, text) {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     this.props.model.save(todoToSave, text);
   }
 
   clearCompleted () {
+    if (!this.props.auth.isAuthenticated()) {
+      return;
+    }
     this.props.model.clearCompleted()
   }
 
@@ -131,15 +153,21 @@ class TodoApp extends Component {
         onClearCompleted={this.clearCompleted.bind(this)}
       />
     }
+    const { auth } = this.props;
 
     return (
       <ReactiveBase
-        app="todomvc"
-        credentials="kDoV3s5Xk:4994cac6-00a3-4179-b159-b0adbfdde34b"
+        app="todomvc-auth"
+        credentials="pVPf3rRLj:61fd73c0-3660-44db-8309-77d9d35d64cc"
         type="todo_reactjs"
         >
           <header className="header">
             <h1>todos</h1>
+            {
+              auth.isAuthenticated() ?
+                <p className="auth-text"><a className="auth-link" onClick={auth.logout}>logout</a></p> :
+                <p className="auth-text">Please <a className="auth-link" onClick={auth.login}>login</a> to modify todos</p>
+            }
             <TextField
               componentId="NewTodoSensor"
               dataField="title"

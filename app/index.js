@@ -1,26 +1,36 @@
-/***************************************************
- * Please note that I’m sharing the credential here.
- * Feel free to use it while you’re learning.
- * After that, use your own credential.
- * Doing so, others can have the same advantage and
- * learn as quick as you learned too.
- * Thanks in advance!!!
-***************************************************/
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Route, Router } from 'react-router-dom';
 
-// Based on: http://todomvc.com/examples/react/#/
+import TodoModel from './todoModel';
+import TodoApp from './todoApp';
+import Callback from './Callback';
+import Auth from './auth';
+import history from './history';
 
-import React from "react";
-import ReactDOM from "react-dom";
+const auth = new Auth();
 
-import TodoModel from "./todoModel";
-import TodoApp from "./todoApp";
+const handleAuthentication = (nextState, replace) => {
+  if (/access_token|id_token|error/.test(nextState.location.hash)) {
+    auth.handleAuthentication();
+  }
+}
 
-let model = new TodoModel("react-todos");
+let model = new TodoModel('react-todos');
 
 let render = () => {
   ReactDOM.render(
-    <TodoApp model={model}/>,
-    document.getElementsByClassName("todoapp")[0]
+    <Router history={history} component={TodoApp}>
+      <div>
+        <Route path="/" render={(props) => <TodoApp model={model} auth={auth} {...props} />} />
+        <Route path="/callback" render={(props) => {
+            handleAuthentication(props);
+            return <Callback {...props} />
+          }}
+        />
+      </div>
+    </Router>,
+    document.getElementsByClassName('todoapp')[0]
   )
 };
 

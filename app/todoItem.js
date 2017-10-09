@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
-
+import ReactTooltip from 'react-tooltip';
 import { TextField } from "@appbaseio/reactivesearch";
 
 const ESCAPE_KEY = 27;
@@ -116,6 +116,11 @@ class TodoItem extends Component {
           onKeyDown={this.handleKeyDown.bind(this)}
           onValueChange={this.handleChange.bind(this)}
         />
+        {
+          !this.state.editing &&
+          <img src={this.props.todo.avatar} className="user-avatar" data-tip={this.props.todo.name} />
+        }
+        <ReactTooltip effect="solid" />
     </li>
   )
 }

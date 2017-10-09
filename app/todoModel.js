@@ -3,8 +3,18 @@
 import Appbase from "appbase-js";
 
 import Utils from "./utils";
+import Auth from './auth';
 
 const ES_TYPE = "todo_reactjs";
+const auth = new Auth();
+
+const headers = () => ({
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+  Authorization: `Bearer ${auth.getAccessToken()}`
+});
+
+const server = process.env.NODE_ENV === 'development' ? 'http://localhost:8000/' : 'https://todomvc-auth-server-sifabztzgp.now.sh';
 
 class TodoModel {
   constructor (key) {
@@ -13,8 +23,8 @@ class TodoModel {
     this.onChanges = [];
     this.appbaseRef = new Appbase({
       url: "https://scalr.api.appbase.io",
-      app: "todomvc",
-      credentials: "kQSlRKaSv:a081eec0-b85f-4953-a3d0-c18f94b26de4"
+      app: "todomvc-auth",
+      credentials: "pVPf3rRLj:61fd73c0-3660-44db-8309-77d9d35d64cc"
     });
 
     this.appbaseRef.search({
@@ -28,7 +38,6 @@ class TodoModel {
     }).on("data", ({hits: {hits = []} = {}} = {}) => {
       this.todos = hits.map(({_source = {}} = {}) => _source);
       this.inform();
-      console.log("search, match: ", hits)
     }).on("error", (error) => {
       console.log("caught a search error: ", error)
     });
@@ -57,7 +66,6 @@ class TodoModel {
 
       // this.todos = hits.map(({_source = {}} = {}) => _source)
       this.inform();
-      console.log("searchStream, new match: ", stream)
     }).on("error", (error) => {
       console.log("caught a searchStream, error: ", error)
     })
@@ -75,47 +83,54 @@ class TodoModel {
 
   addTodo (title) {
     const id = Utils.uuid();
+    const now = Date.now();
     const jsonObject = {
       id,
       title,
       completed: false,
-      createdAt: Date.now()
+      createdAt: now
     };
 
     // optimistic logic
     this.todos = [jsonObject].concat(this.todos);
     this.inform();
+    const payload = {
+      title,
+      id,
+      createdAt: now,
+      name: localStorage.name,
+      avatar: localStorage.avatar
+    }
 
-    // broadcast all changes
-    this.appbaseRef.index({
-      type: ES_TYPE,
-      id: id,
-      body: jsonObject
-    }).on("data", function(response) {
-      console.log(response)
-    }).on("error", function(error) {
-      console.log(error)
+    fetch(server, {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify(payload)
     })
+      .then(res => res.json())
+      .then(json => console.log(json))
   }
 
   toggleAll (checked) {
-    // Note: it"s usually better to use immutable data structures since they"re
-    // easier to reason about and React works very well with them. That"s why
-    // we use map() and filter() everywhere instead of mutating the array or
-    // todo items themselves.
     this.todos = this.todos.map((todo) => ({
       ...todo,
       completed: checked
     }));
     this.inform();
 
-    // broadcast all changes
     this.todos.forEach((todo) => {
-      this.appbaseRef.index({
-        type: ES_TYPE,
+      const payload = {
         id: todo.id,
-        body: todo
+        completed: todo.completed
+      }
+  
+      fetch(server, {
+        method: 'PUT',
+        headers: headers(),
+        body: JSON.stringify(payload)
       })
+        .then(res => res.json())
+        .then(json => console.log(json))
     })
   }
 
@@ -130,19 +145,18 @@ class TodoModel {
     });
     this.inform();
 
-    // broadcast all changes
-    this.appbaseRef.index({
-      type: ES_TYPE,
+    const payload = {
       id: todoToToggle.id,
-      body: {
-        ...todoToToggle,
-        completed: !todoToToggle.completed
-      }
-    }).on("data", function(response) {
-      console.log(response)
-    }).on("error", function(error) {
-      console.log(error)
+      completed: !todoToToggle.completed
+    }
+
+    fetch(server, {
+      method: 'PUT',
+      headers: headers(),
+      body: JSON.stringify(payload)
     })
+      .then(res => res.json())
+      .then(json => console.log(json))
   };
 
   destroy (todo) {
@@ -152,15 +166,17 @@ class TodoModel {
     });
     this.inform();
 
-    // broadcast all changes
-    this.appbaseRef.delete({
-      type: ES_TYPE,
+    const payload = {
       id: todo.id
-    }).on("data", function(response) {
-      console.log(response)
-    }).on("error", function(error) {
-      console.log(error)
+    }
+
+    fetch(server, {
+      method: 'DELETE',
+      headers: headers(),
+      body: JSON.stringify(payload)
     })
+      .then(res => res.json())
+      .then(json => console.log(json))
   }
 
   save (todoToSave, text) {
@@ -173,19 +189,18 @@ class TodoModel {
     });
     this.inform();
 
-    // broadcast all changes
-    this.appbaseRef.index({
-      type: ES_TYPE,
+    const payload = {
       id: todoToSave.id,
-      body: {
-        ...todoToSave,
-        title: text
-      }
-    }).on("data", function(response) {
-      console.log(response)
-    }).on("error", function(error) {
-      console.log(error)
+      title: text
+    }
+
+    fetch(server, {
+      method: 'PUT',
+      headers: headers(),
+      body: JSON.stringify(payload)
     })
+      .then(res => res.json())
+      .then(json => console.log(json))
   }
 
   clearCompleted () {
@@ -197,10 +212,17 @@ class TodoModel {
 
     // broadcast all changes
     completed.forEach((todo) => {
-      this.appbaseRef.delete({
-        type: ES_TYPE,
+      const payload = {
         id: todo.id
+      };
+
+      fetch(server, {
+        method: 'DELETE',
+        headers: headers(),
+        body: JSON.stringify(payload)
       })
+        .then(res => res.json())
+        .then(json => console.log(json))
     })
   }
 }
