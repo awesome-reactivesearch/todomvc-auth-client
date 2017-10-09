@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
 	context: path.resolve(__dirname, "./app"),
@@ -40,5 +41,12 @@ module.exports = {
 			}
 		]
 	},
-	externals: ["ws"]
+	externals: ["ws"],
+	plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
+    ]
 }
