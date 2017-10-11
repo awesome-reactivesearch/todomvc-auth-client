@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Callback = () => (
-  <div className="container">
+  <div className="loading">
     <h4>Loading...</h4>
   </div>
 );

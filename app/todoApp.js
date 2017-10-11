@@ -34,16 +34,6 @@ class TodoApp extends Component {
     this.clearCompleted = this.clearCompleted.bind(this);
   }
 
-  // componentDidMount () {
-  //   let setState = this.setState;
-  //   // let router = Router({
-  //   //   "/": setState.bind(this, {nowShowing: ALL_TODOS}),
-  //   //   "/active": setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-  //   //   "/completed": setState.bind(this, {nowShowing: COMPLETED_TODOS})
-  //   // });
-  //   // router.init("/")
-  // }
-
   handleChange (newTodo) {
     if (!this.props.auth.isAuthenticated()) {
       return;
@@ -156,6 +146,7 @@ class TodoApp extends Component {
     const { auth } = this.props;
 
     return (
+      // Please use your own credentials here
       <ReactiveBase
         app="todomvc-auth"
         credentials="pVPf3rRLj:61fd73c0-3660-44db-8309-77d9d35d64cc"

@@ -68,17 +68,9 @@ class TodoItem extends Component {
     return {editText: this.props.todo.title}
   }
 
-  /**
-  * Safely manipulate the DOM after updating the state when invoking
-  * `this.props.onEdit()` in the `handleEdit` method above.
-  * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
-  * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
-  */
   componentDidUpdate (prevProps, prevState) {
     if (!prevState.editing && this.state.editing) {
       this.setState({ autoFocus: true });
-
-      // workaround because after setState re-rendering is not happening 
       let node = ReactDOM.findDOMNode(this.refs.editField);
       node = node.childNodes[0].children[0];
       node.focus();
@@ -121,9 +113,9 @@ class TodoItem extends Component {
           <img src={this.props.todo.avatar} className="user-avatar" data-tip={this.props.todo.name} />
         }
         <ReactTooltip effect="solid" />
-    </li>
-  )
-}
+      </li>
+    )
+  }
 }
 
 export default TodoItem;
