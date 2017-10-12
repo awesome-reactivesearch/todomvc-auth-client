@@ -14,7 +14,7 @@ const headers = () => ({
   Authorization: `Bearer ${auth.getAccessToken()}`
 });
 
-const server = process.env.NODE_ENV === 'development' ? 'http://localhost:8000/' : 'https://ec2-184-73-132-201.compute-1.amazonaws.com';
+const server = process.env.NODE_ENV === 'development' ? 'https://localhost:8000/' : 'https://todomvc.appbase.io/';
 
 class TodoModel {
   constructor (key) {
