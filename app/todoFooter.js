@@ -78,33 +78,12 @@ class TodoFooter extends Component {
             dataField="completed"
             defaultSelected={[nowShowing]}
             multiSelect={false}
+            onValueChange={this.props.handleToggle}
             customQuery={
-              function(data) {
-                let val;
-                if (Array.isArray(data)) {
-                  val = data[0].value;
-                }
-                const completed = (val === "completed") ? true : (val === "active") ? false : "all";
-
-                if (completed === "all") {
-                  return {
-                    query: {
-                      match_all: {}
-                    }
-                  }
-                }
-
+              function() {
                 return {
-                  "query": {
-                    "bool": {
-                      "must": [
-                        {
-                          "match": {
-                            "completed": completed
-                          }
-                        }
-                      ]
-                    }
+                  query: {
+                    match_all: {}
                   }
                 }
               }

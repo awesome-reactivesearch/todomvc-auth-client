@@ -32,6 +32,7 @@ class TodoApp extends Component {
     this.onAllData = this.onAllData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   handleChange (newTodo) {
@@ -39,6 +40,12 @@ class TodoApp extends Component {
       return;
     }
     this.setState({ newTodo })
+  }
+
+  handleToggle (e) {
+    this.setState({
+      nowShowing: e[0].value
+    });
   }
 
   handleNewTodoKeyDown (event) {
@@ -101,9 +108,12 @@ class TodoApp extends Component {
   }
 
   onAllData(data) {
-
     // merging all streaming and historic data
-    var todosData = Utils.mergeTodos(data);
+    let todosData = Utils.mergeTodos(data);
+
+    if (this.state.nowShowing !== ALL_TODOS) {
+      todosData = todosData.filter(({ _source: todo }) => todo.completed === (this.state.nowShowing === COMPLETED_TODOS));
+    }
 
     // sorting todos based on creation time
     todosData = todosData.sort(function(a, b) {
@@ -141,6 +151,7 @@ class TodoApp extends Component {
         completedCount={completedCount}
         nowShowing={this.state.nowShowing}
         onClearCompleted={this.clearCompleted.bind(this)}
+        handleToggle={this.handleToggle}
       />
     }
     const { auth } = this.props;
@@ -178,11 +189,11 @@ class TodoApp extends Component {
               onChange={this.toggleAll.bind(this)}
               checked={activeTodoCount === 0}
             />
-            <ul className="todo-list">
+            <ul className="todo-list" key={this.state.nowShowing}>
               <ReactiveList
                 stream={true}
                 react={{
-                  or: ["FiltersSensor"]
+                  or: ["FiltersSensor", this.state.nowShowing]
                 }}
                 scrollOnTarget={window}
                 showResultStats={false}
